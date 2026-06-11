@@ -1,32 +1,4 @@
 {
-  "name": "World Cup Watch Advisor",
-  "version": 2,
-  "public": true,
   "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "framework": "nextjs",
-  "env": {
-    "NEXT_PUBLIC_FOOTBALL_DATA_API_KEY": {
-      "description": "Football Data API Key (optional - uses mock data by default)"
-    }
-  },
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
-      ]
-    }
-  ]
+  "outputDirectory": ".next"
 }
