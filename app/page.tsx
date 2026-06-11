@@ -16,8 +16,8 @@ interface MatchWithRec {
 }
 
 export default function HomePage() {
-  const { matches, isLoading } = useMatches(new Date());
-  const { preferences, isLoaded } = useUserPreferences();
+  const { matches, isLoading: matchesLoading } = useMatches(new Date());
+  const { preferences, isLoaded: prefsLoaded } = useUserPreferences();
   const [matchesWithRecs, setMatchesWithRecs] = useState<{
     mustWatch: MatchWithRec[];
     worthWatching: MatchWithRec[];
@@ -25,11 +25,20 @@ export default function HomePage() {
   }>({ mustWatch: [], worthWatching: [], skip: [] });
 
   useEffect(() => {
-    if (!isLoaded || !preferences) return;
+    // Use default preferences if not loaded yet
+    const prefs = preferences || {
+      bedtime: '23:00',
+      wakeupTime: '07:00',
+      fanLevel: 'normal' as const,
+      timezone: 'UTC',
+      favoritedTeams: [],
+      rivalTeams: [],
+      notificationsEnabled: true,
+    };
 
     const withRecs = matches.map((match) => ({
       match,
-      recommendation: generateRecommendation(match, preferences),
+      recommendation: generateRecommendation(match, prefs),
     }));
 
     const grouped = {
@@ -39,9 +48,9 @@ export default function HomePage() {
     };
 
     setMatchesWithRecs(grouped);
-  }, [matches, isLoaded, preferences]);
+  }, [matches]);
 
-  if (isLoading || !isLoaded) {
+  if (matchesLoading) {
     return (
       <div className="min-h-screen bg-slate-950">
         <Header />
