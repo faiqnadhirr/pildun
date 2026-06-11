@@ -53,8 +53,8 @@ export default function HomePage() {
     setMatchesWithRecs(grouped);
   }, [matches]);
 
-  if (matchesLoading) {
-    console.log('[DEBUG HomePage] Still loading matches...');
+  if (matchesLoading && matches.length === 0) {
+    console.log('[DEBUG HomePage] Loading... no matches yet');
     return (
       <div className="min-h-screen bg-slate-950">
         <Header />
