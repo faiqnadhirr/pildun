@@ -5,7 +5,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
-  "nodeVersion": "20",
   "env": {
     "NEXT_PUBLIC_FOOTBALL_DATA_API_KEY": {
       "description": "Football Data API Key (optional - uses mock data by default)"
@@ -29,7 +28,5 @@
         }
       ]
     }
-  ],
-  "redirects": [],
-  "rewrites": []
+  ]
 }
