@@ -14,22 +14,32 @@ export function useMatches(dateFilter?: Date) {
     try {
       // Simulating API call delay
       const timer = setTimeout(() => {
-        if (dateFilter) {
-          const filtered = getMatchesForDate(dateFilter);
-          setMatches(filtered);
-        } else {
-          // Get all upcoming matches
-          const now = new Date();
-          const upcoming = mockMatches.filter(
-            (m) => new Date(m.kickoffTime) >= now && m.status !== 'finished'
-          );
-          setMatches(upcoming);
+        try {
+          if (dateFilter) {
+            const filtered = getMatchesForDate(dateFilter);
+            console.log('[DEBUG] Matches for date:', dateFilter, '→', filtered.length, 'matches');
+            setMatches(filtered);
+          } else {
+            // Get all upcoming matches
+            const now = new Date();
+            const upcoming = mockMatches.filter(
+              (m) => new Date(m.kickoffTime) >= now && m.status !== 'finished'
+            );
+            console.log('[DEBUG] Upcoming matches:', upcoming.length, 'matches');
+            setMatches(upcoming);
+          }
+          setIsLoading(false);
+          console.log('[DEBUG] Matches loaded successfully');
+        } catch (innerErr) {
+          console.error('[ERROR] Inside setTimeout:', innerErr);
+          setError(innerErr instanceof Error ? innerErr.message : 'Unknown error');
+          setIsLoading(false);
         }
-        setIsLoading(false);
       }, 300);
 
       return () => clearTimeout(timer);
     } catch (err) {
+      console.error('[ERROR] useMatches outer:', err);
       setError(err instanceof Error ? err.message : 'Failed to load matches');
       setIsLoading(false);
     }

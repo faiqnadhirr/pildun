@@ -25,6 +25,8 @@ export default function HomePage() {
   }>({ mustWatch: [], worthWatching: [], skip: [] });
 
   useEffect(() => {
+    console.log('[DEBUG HomePage] matches:', matches.length, 'loading:', matchesLoading, 'prefs loaded:', prefsLoaded);
+    
     // Use default preferences if not loaded yet
     const prefs = preferences || {
       bedtime: '23:00',
@@ -47,10 +49,12 @@ export default function HomePage() {
       skip: withRecs.filter((m) => m.recommendation.verdict === 'skip'),
     };
 
+    console.log('[DEBUG HomePage] grouped:', grouped.mustWatch.length, 'must-watch,', grouped.worthWatching.length, 'worth-watching,', grouped.skip.length, 'skip');
     setMatchesWithRecs(grouped);
   }, [matches]);
 
   if (matchesLoading) {
+    console.log('[DEBUG HomePage] Still loading matches...');
     return (
       <div className="min-h-screen bg-slate-950">
         <Header />
